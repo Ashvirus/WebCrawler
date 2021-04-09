@@ -20,7 +20,7 @@ public class CrawlerApplication {
 		int indexOf = authority.indexOf('.');
 		int lastIndexOf = authority.lastIndexOf('.');
 		String substring = authority.substring(indexOf+1, lastIndexOf);
-		WebCrawlerWithDepth.setDomainName(substring);
+		webCrawlerWithDepth.setDomainName(substring);
 		webCrawlerWithDepth.getPageLinks(args[0]);
 		webCrawlerWithDepth.write();
 	}

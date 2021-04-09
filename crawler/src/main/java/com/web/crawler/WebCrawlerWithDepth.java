@@ -39,14 +39,14 @@ public class WebCrawlerWithDepth {
 		links = new HashSet<>();
 	}
 
-	private static String domainName;
+	private  String domainName;
 	
-	public static String getDomainName() {
+	public  String getDomainName() {
 		return domainName;
 	}
 
-	public static void setDomainName(String domainName) {
-		WebCrawlerWithDepth.domainName = domainName;
+	public  void setDomainName(String domainName) {
+		this.domainName = domainName;
 	}
 
 	public void getPageLinks(String URL) throws IOException {
@@ -72,7 +72,7 @@ public class WebCrawlerWithDepth {
 				rowNumber++;
 				for (Element page : linksOnPage) {
 					String attr = page.attr("abs:href");
-					if (attr.contains(this.domainName))
+					if (attr.contains(this.domainName) && (!attr.contains("?")) && (!attr.contains("#")))
 						getPageLinks(attr);
 
 				}
