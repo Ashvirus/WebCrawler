@@ -1,6 +1,7 @@
 package com.web.crawler;
 
 import java.io.IOException;
+import java.net.URL;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,13 @@ public class CrawlerApplication {
 		SpringApplication.run(CrawlerApplication.class, args);
 
 		WebCrawlerWithDepth webCrawlerWithDepth = new WebCrawlerWithDepth();
+		String baseUrl = args[0];
+		URL url=new URL(baseUrl);
+		String authority = url.getAuthority();
+		int indexOf = authority.indexOf('.');
+		int lastIndexOf = authority.lastIndexOf('.');
+		String substring = authority.substring(indexOf+1, lastIndexOf);
+		WebCrawlerWithDepth.setDomainName(substring);
 		webCrawlerWithDepth.getPageLinks(args[0]);
 		webCrawlerWithDepth.write();
 	}

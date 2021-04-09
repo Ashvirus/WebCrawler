@@ -39,6 +39,16 @@ public class WebCrawlerWithDepth {
 		links = new HashSet<>();
 	}
 
+	private static String domainName;
+	
+	public static String getDomainName() {
+		return domainName;
+	}
+
+	public static void setDomainName(String domainName) {
+		WebCrawlerWithDepth.domainName = domainName;
+	}
+
 	public void getPageLinks(String URL) throws IOException {
 		if ((!links.contains(URL))) {
 			try {
@@ -62,7 +72,7 @@ public class WebCrawlerWithDepth {
 				rowNumber++;
 				for (Element page : linksOnPage) {
 					String attr = page.attr("abs:href");
-					if (attr.contains("joinlane"))
+					if (attr.contains(this.domainName))
 						getPageLinks(attr);
 
 				}
