@@ -10,3 +10,4 @@ You can clone this project into your local environment setup.
    Example:  mvn spring-boot:run -Dspring-boot.run.arguments=https://www.joinlane.com/
 5. You can see the logs in your terminal.
 6. Once the program ran successfully then you can see an excel file name crawler.xlsx in your folder structure with crawled details.
+7. By default, it displays four columns: Title | Description | Meta[robots] | URL
