@@ -2,12 +2,18 @@
 
 You can clone this project into your local environment setup.
 
+## Requirements
+1. Java SDK 8 or above
+2. Maven
+3. Docker
+
 ## Steps to setup your local and run the program from terminal/cmd:
 1. git clone https://github.com/Ashvirus/WebCrawler.git
 2. cd crawler
-3. mvn clean install
-4. mvn spring-boot:run -Dspring-boot.run.arguments=your base url <br>
-   Example:  mvn spring-boot:run -Dspring-boot.run.arguments=https://www.joinlane.com/
-5. You can see the logs in your terminal.
-6. Once the program ran successfully then you can see an excel file name crawler.xlsx in your folder structure with crawled details.
-7. By default, it displays four columns: Title | Description | Meta[robots] | URL
+3. Load the application into your IDE and run as a Java application or Spring boot application
+4. You can hit localhost:8080/links?name=https://www.example.com
+5. This will crawl all the web pages and save the excel file as example.xlsx
+6. By default, it displays four columns: Title | Description | Meta[robots] | URL
+
+
+## Docker version is coming soon !!!
