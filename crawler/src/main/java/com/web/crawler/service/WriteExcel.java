@@ -72,6 +72,7 @@ public class WriteExcel {
 				cell.setCellValue(rowValues.getValue());
 
 				cell.setCellStyle(style);
+				size++;
 
 			}
 			FileOutputStream outputStream = new FileOutputStream(fileLocation);
