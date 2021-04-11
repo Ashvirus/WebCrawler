@@ -1,9 +1,9 @@
 package com.web.crawler.service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jsoup.Jsoup;
@@ -18,14 +18,16 @@ import com.web.crawler.model.Constant;
 import com.web.crawler.model.DataModelExcel;
 
 @Configuration
-public class WebCrawlerWithDepth {
+public class WebCrawlerService {
 	private HashSet<String> links;
-	private static Logger logger = LoggerFactory.getLogger(WebCrawlerWithDepth.class);
+	private static Logger logger = LoggerFactory.getLogger(WebCrawlerService.class);
 
-	HashMap<Integer, DataModelExcel> map = new HashMap<Integer, DataModelExcel>();
+	Map<Integer, DataModelExcel> map = new ConcurrentHashMap<Integer, DataModelExcel>(500, 0.8f, 10);
+
+	Map<String, String> errorMap = new ConcurrentHashMap<String, String>(100, 0.8f, 10);
 	private int rowNumber = 1;
 
-	public WebCrawlerWithDepth() throws InvalidFormatException, IOException {
+	public WebCrawlerService() throws InvalidFormatException, IOException {
 		links = new HashSet<>();
 	}
 
@@ -33,6 +35,10 @@ public class WebCrawlerWithDepth {
 
 	public String getDomainName() {
 		return domainName;
+	}
+
+	public Map<String, String> getErrorMap() {
+		return errorMap;
 	}
 
 	public void setDomainName(String domainName) {
@@ -67,6 +73,7 @@ public class WebCrawlerWithDepth {
 				}
 
 			} catch (IOException e) {
+				errorMap.put(url, e.getLocalizedMessage());
 				logger.error("Exception for URL: {}, message: {}", url, e.getLocalizedMessage());
 			}
 		}

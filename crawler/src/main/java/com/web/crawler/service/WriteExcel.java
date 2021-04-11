@@ -26,14 +26,69 @@ import com.web.crawler.model.DataModelExcel;
 public class WriteExcel {
 	private static Logger logger = LoggerFactory.getLogger(WriteExcel.class);
 	@Autowired
-	WebCrawlerWithDepth webCrawlerWithDepth;
+	private WebCrawlerService webCrawlerWithDepth;
 
-	public void write(Map<Integer, DataModelExcel> map) throws IOException {
+	public void writeError() {
+		File currDir = new File(".");
+		String path = currDir.getAbsolutePath();
+		String domainName = webCrawlerWithDepth.getDomainName();
+		String fileLocation = path.substring(0, path.length() - 1) + domainName + "Errors.xlsx";
+		Map<String, String> errorMap = webCrawlerWithDepth.getErrorMap();
+		try (Workbook workbook = new XSSFWorkbook()) {
+			Sheet sheet = workbook.createSheet(domainName.toUpperCase());
+			sheet.setColumnWidth(0, 6000);
+			sheet.setColumnWidth(1, 10000);
+
+			Row header = sheet.createRow(0);
+
+			CellStyle headerStyle = workbook.createCellStyle();
+			headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+			headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+			XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+			font.setFontName("Arial");
+			font.setFontHeightInPoints((short) 16);
+			font.setBold(true);
+			headerStyle.setFont(font);
+
+			Cell headerCell = header.createCell(0);
+			headerCell.setCellValue(Constant.ExcelCellName.URL.name());
+			headerCell.setCellStyle(headerStyle);
+
+			headerCell = header.createCell(1);
+			headerCell.setCellValue(Constant.ExcelCellName.ERRORS.name());
+			headerCell.setCellStyle(headerStyle);
+
+			CellStyle style = workbook.createCellStyle();
+			style.setWrapText(true);
+			int size = 1;
+
+			for (Map.Entry<String, String> rowValues : errorMap.entrySet()) {
+				Row row = sheet.createRow(size);
+				Cell cell = row.createCell(0);
+				cell.setCellValue(rowValues.getKey());
+
+				cell = row.createCell(1);
+				cell.setCellValue(rowValues.getValue());
+
+				cell.setCellStyle(style);
+
+			}
+			FileOutputStream outputStream = new FileOutputStream(fileLocation);
+			workbook.write(outputStream);
+			outputStream.close();
+
+		} catch (Exception e) {
+			logger.error("Error writing into excel file: {}", e);
+		}
+
+	}
+
+	public void writeMap(Map<Integer, DataModelExcel> map) throws IOException {
 		File currDir = new File(".");
 		String path = currDir.getAbsolutePath();
 		String domainName = webCrawlerWithDepth.getDomainName();
 		String fileLocation = path.substring(0, path.length() - 1) + domainName + ".xlsx";
-
 		try (Workbook workbook = new XSSFWorkbook()) {
 			Sheet sheet = workbook.createSheet(domainName.toUpperCase());
 			sheet.setColumnWidth(0, 10000);

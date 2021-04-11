@@ -6,7 +6,7 @@ public class Constant {
 	}
 
 	public enum ExcelCellName {
-		TITLE, URL, DESCRIPTION, META_ROBOTS
+		TITLE, URL, DESCRIPTION, META_ROBOTS, ERRORS
 	}
 
 	public static final String DESCRIPTION = "description";

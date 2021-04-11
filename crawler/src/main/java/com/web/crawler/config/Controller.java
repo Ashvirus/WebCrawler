@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.HtmlUtils;
 
 import com.web.crawler.model.DataModelExcel;
-import com.web.crawler.service.WebCrawlerWithDepth;
+import com.web.crawler.service.WebCrawlerService;
 import com.web.crawler.service.WriteExcel;
 
 @RestController
 public class Controller {
 
 	@Autowired
-	WebCrawlerWithDepth webCrawlerWithDepth;
+	WebCrawlerService webCrawlerWithDepth;
 	@Autowired
 	WriteExcel writeExcel;
 
@@ -29,10 +29,12 @@ public class Controller {
 		String authority = url.getAuthority();
 		int indexOf = authority.indexOf('.');
 		int lastIndexOf = authority.lastIndexOf('.');
-		String substring = authority.substring(indexOf + 1, lastIndexOf);
-		webCrawlerWithDepth.setDomainName(substring);
+		String domain = authority.substring(indexOf + 1, lastIndexOf);
+		webCrawlerWithDepth.setDomainName(domain);
 		Map<Integer, DataModelExcel> pageLinks = webCrawlerWithDepth.getPageLinks(baseUrl);
-		writeExcel.write(pageLinks);
-		return "Please check the crawler.xlsx file";
+		writeExcel.writeMap(pageLinks);
+		writeExcel.writeError();
+		return "Please check the" + domain + ".xlsx file along with Errors file";
 	}
+
 }
