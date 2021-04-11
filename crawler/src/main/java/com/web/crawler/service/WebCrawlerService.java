@@ -1,7 +1,9 @@
 package com.web.crawler.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,18 +14,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 import com.web.crawler.model.Constant;
 import com.web.crawler.model.DataModelExcel;
 
-@Configuration
+@Service
 public class WebCrawlerService {
 	private HashSet<String> links;
 	private static Logger logger = LoggerFactory.getLogger(WebCrawlerService.class);
 
 	Map<Integer, DataModelExcel> map = new ConcurrentHashMap<Integer, DataModelExcel>(500, 0.8f, 10);
-
+	
 	Map<String, String> errorMap = new ConcurrentHashMap<String, String>(100, 0.8f, 10);
 	private int rowNumber = 1;
 
