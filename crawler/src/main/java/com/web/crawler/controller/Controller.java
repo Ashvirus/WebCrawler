@@ -1,4 +1,4 @@
-package com.web.crawler.config;
+package com.web.crawler.controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,9 +18,9 @@ import com.web.crawler.service.WriteExcel;
 public class Controller {
 
 	@Autowired
-	WebCrawlerService webCrawlerWithDepth;
+	private WebCrawlerService webCrawlerWithDepth;
 	@Autowired
-	WriteExcel writeExcel;
+	private WriteExcel writeExcel;
 
 	@GetMapping("links")
 	public String helloWithParm(@RequestParam("name") String input) throws IOException {
@@ -34,7 +34,7 @@ public class Controller {
 		Map<Integer, DataModelExcel> pageLinks = webCrawlerWithDepth.getPageLinks(baseUrl);
 		writeExcel.writeMap(pageLinks);
 		writeExcel.writeError();
-		return "Please check the" + domain + ".xlsx file along with Errors file";
+		return "Please check the " + domain + ".xlsx file along with " + domain + "Errors.xlsx file";
 	}
 
 }
